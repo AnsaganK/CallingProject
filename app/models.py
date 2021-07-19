@@ -46,7 +46,7 @@ class Patient(models.Model):
     patronymic = models.CharField(max_length=120, default="", null=True, blank=True)
 
     birth_date = models.DateField(null=True, blank=True)
-    before_weight = models.DecimalField()
+    before_weight = models.DecimalField(max_digits=5, decimal_places=2)
     height = models.IntegerField()
 
 
