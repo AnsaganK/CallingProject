@@ -16,17 +16,52 @@
 .patients_list table tr:hover{
     cursor: pointer;
 }
+.patients_list thead{
+    text-align: center;
+}
 .patient_detail{
     flex-grow: 1;
 }
 .patient_detail{
-    margin: auto;
+    margin: 20px auto;
     max-width: 520px;
 }
 
 .patient_detail .card{
     min-height:300px;
     display: flex;
+}
+
+.patient_detail .card-content{
+    padding: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.patient_detail{
+    text-align: center;
+}
+.admin_panel_form{
+    max-width: 533px;
+    min-width: 320px;
+    margin: 10px;
+    display: flex;
+}
+.admin_panel_form button{
+    background-color: #00d1b2;
+    border-color: transparent;
+    color: #fff;
+    margin-left: -92px;
+}
+
+.content-text{
+    text-align: center;
+    color: #464646;
+}
+
+.patient_detail p{
+    color: grey;
 }
 
 .load_text{
@@ -41,8 +76,25 @@
     font-size: 20px;
     margin: 11px;
 }
+.user-info{
+    padding: 15px;
+}
+.user-info div{
+    display: flex;
+    border-bottom: 1px solid #d6d6d6;
+    justify-content: space-between;
+    margin: 9px;
+}
 
-
+.td_flex{
+    display: flex;
+    justify-content: space-evenly;
+}
+.user-info-title{
+    font-size: 21px;
+    color: #000000;
+    border-bottom: 1px solid #a4a4a4;
+}
 
 
 .loader_wrap {

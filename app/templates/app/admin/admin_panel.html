@@ -1,0 +1,37 @@
+{% extends 'app/base.html' %}
+
+{% block title %} {{ title }} | CallingProject{% endblock %}
+
+
+{% block content %}
+    <form action="" method="post" class="admin_panel_form">
+        {% csrf_token %}
+        <input class="input is-primary" name="name" type="text" placeholder="{{ title }}">
+        <button type="submit" class="button is-primary">Создать</button>
+    </form>
+
+    <table class="table is-striped ">
+        <thead>
+            <tr>
+                <td>Название</td>
+                <td>Действия</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td class="td_flex">
+                    <a href="">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                     <a href="" class="is-danger">
+                        <i class="fa fa-remove"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+

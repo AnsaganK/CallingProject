@@ -89,6 +89,46 @@
           </a>
         </div>
       </div>
+        {% if request.user.profile.is_admin %}
+        <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link" style="background-color: #236193">
+          Админка
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="{% url 'bad_habits_page' %}">
+            Вредные привычки
+          </a>
+          <a class="navbar-item" href="{% url 'PMSP_page' %}">
+            ПМСП
+          </a>
+          <a class="navbar-item" href="{% url 'risk_group_page' %}">
+            Группы риска
+          </a>
+          <a class="navbar-item" href="{% url 'past_illnesses_page' %}">
+            Перенесенные заболевания
+          </a>
+            <a class="navbar-item" href="{% url 'accompanying_illnesses_page' %}">
+            Сопутсвующие заболевания
+          </a>
+            <a class="navbar-item" href="{% url 'district_page' %}">
+            Районы
+          </a>
+            <a class="navbar-item" href="{% url 'work_type_page' %}">
+            Типы работ
+          </a>
+          <a class="navbar-item" href="{% url 'deregistration_cause_page' %}">
+            Причины снятия
+          </a>
+          <hr class="navbar-divider">
+          <a class="navbar-item" href="">
+            Препараты
+          </a>
+            <a class="navbar-item" href="">
+            Самочувствие
+          </a>
+        </div>
+      </div>
+        {% endif %}
     </div>
 
     <div class="navbar-end">
@@ -119,7 +159,14 @@
 </nav>
 
 {% block content %}
-
+    <div>
+        <h2 style="text-align: center;
+    margin: 30px auto;
+    font-size: 40px;
+    font-weight: 600;
+    color: #3e8ed0;">CallingProject</h2>
+    </div>
+    <p class="content-text">Проект по управлению чек-листами и карточками пациентов</p>
 {% endblock %}
 
 </body>
