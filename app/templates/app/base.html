@@ -1,10 +1,126 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Главная | CallingPatients {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+    <script src="{% static 'app/js/script.js' %}"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Questrial&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style type="">
+      .hero.is-success {
+        background-color: #98e0ff;
+        color: #fff;
+    }
+    .logo{
+        border-radius: 100%;
+        //box-shadow: 0 2px 2px 0 rgb(0 0 0 / 6%), 0 3px 1px -2px rgb(0 0 0 / 40%), 0 1px 5px 0 rgb(0 0 0 / 21%);
+        background: white;
+    }
+    .logo_wrap{
+      height: fit-content;
+        width: 120px;
+        margin: -79px auto 13px auto;
+        border-radius: 100%;
+        padding: 13px;
+        background: #98e0ff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .my-logo{
+        font-size: 24px;
+        color: #ffffff;
+        font-weight: 600;
+    }
+</style>
 </head>
+
 <body>
+<nav class="navbar is-info">
+  <div class="navbar-brand">
+    <a class="navbar-item my-logo" href="{% url 'home' %}">
+        CallingProject
+    </a>
+    <div class="navbar-burger" data-target="navMenuColorinfo-example">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <div id="navMenuColorinfo-example" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="{% url 'home' %}">
+        Главная
+      </a>
+
+      <a class="navbar-item" href="{% url 'patients_list' %}">
+        Пациенты
+      </a>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          Подробнее
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="{% url 'about_service' %}">
+            О сервисе
+          </a>
+          <a class="navbar-item" href="{% url 'managers_list' %}">
+            Менеджера
+          </a>
+          <a class="navbar-item" href="{% url 'contacts' %}">
+            Контакты
+          </a>
+          <a class="navbar-item" href="">
+            Статистика
+          </a>
+          <hr class="navbar-divider">
+          <a class="navbar-item" href="">
+            Звонки
+          </a>
+          <a class="navbar-item is-active" href="">
+            Настройки
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="field is-grouped">
+          <p class="control">
+            <a class="bd-tw-button button" data-social-network="Twitter" data-social-action="tweet" href="{% url 'profile' %}">
+              <span class="icon">
+                <i class="fa fa-user"></i>
+              </span>
+              <span>
+                Профиль
+              </span>
+            </a>
+          </p>
+          <p class="control">
+            <a class="button is-danger" href="{% url 'logout' %}">
+              <span class="icon">
+                <i class="fa fa-sign-out"></i>
+              </span>
+              <span>Выйти</span>
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+{% block content %}
+
+{% endblock %}
 
 </body>
 </html>

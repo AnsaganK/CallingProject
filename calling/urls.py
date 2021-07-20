@@ -16,7 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from django.contrib.auth import views as acc
+from app import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('app.urls')),
+]
+
+
+urlpatterns += [
+    path('accounts/login/', acc.LoginView.as_view(), name='login'),
+    path('accounts/logout/', acc.LogoutView.as_view(), name='logout'),
+    path('accounts/password-reset', acc.PasswordResetView.as_view(), name='password_reset'),
+    path('', views.home, name='password_change_done'),
+    path('accounts/password-change', acc.PasswordChangeView.as_view(), name='password_change'),
 ]

@@ -1,0 +1,14 @@
+{% extends 'app/base.html' %}
+
+{% block title %} Менеджера {% endblock %}
+
+{% block content %}
+    <h3>Список менеджеров</h3>
+    <div>
+        {% for manager in managers %}
+            <div class="manager">
+                {{ manager.first_name }} {{ manager.last_name }}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
