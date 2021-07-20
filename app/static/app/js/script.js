@@ -271,5 +271,31 @@ function generatePatientInfo(patient){
 </div>
     `;
     patient_block.innerHTML = patient_info;
+}
 
+function detail_admin_item(id, name){
+    let items_text = document.querySelectorAll('.hide');
+    for(let i=0; i<items_text.length; i++){
+        items_text[i].classList.remove('hide');
+        items_text[i].nextElementSibling.innerHTML = '';
+    }
+
+    let detail_item_block = document.getElementById(`detail_item_${id}`);
+    let detail_text = detail_item_block.previousElementSibling;
+    detail_text.classList.add('hide');
+    let admin_panel_form = document.getElementById('admin_panel_form');
+    let csrf_value = admin_panel_form.children[0].value;
+    let csrf_name = admin_panel_form.children[0].name;
+    console.log(csrf_value);
+    detail_item_block.innerHTML = `
+     <form action="" method="post">
+            <input type="hidden" name="${csrf_name}" value="${csrf_value}">
+            <input type="hidden" name="id" value="${id}">
+            <input class="input is-warning" name="name" type="text" placeholder="" value="${name}">
+            <div class="buttons">
+                <button type="submit" class="button is-primary">Изменить</button>
+                <a href="?id=${id}" class="button is-danger">Удалить</a>
+            </div> 
+     </form>
+    `
 }

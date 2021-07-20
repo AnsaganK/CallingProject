@@ -55,6 +55,23 @@
     margin-left: -92px;
 }
 
+.tr_pointer{
+    cursor: pointer;
+}
+
+.hide{
+    display: none !important;
+}
+
+.item_text{
+    padding: 10px;
+    display: block;
+}
+
+.buttons{
+    margin-top: 10px;
+}
+
 .content-text{
     text-align: center;
     color: #464646;

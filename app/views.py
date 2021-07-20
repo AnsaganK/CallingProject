@@ -52,13 +52,18 @@ def contacts(request):
 def generate_admin_page(request, model, title, name):
     if request.method == 'POST' and request.POST['name']:
         if 'id' in request.POST:
-            item = model.objects.get(pk=id)
+            item = model.objects.get(pk=int(request.POST['id']))
             item.name = request.POST['name']
             item.save()
-        new_item = model.objects.create(name=request.POST['name'])
-        new_item.save()
+        elif not model.objects.filter(name=request.POST['name']).first():
+            new_item = model.objects.create(name=request.POST['name'])
+            new_item.save()
+    if 'id' in request.GET:
+        id = request.GET.get('id')
+        item = model.objects.filter(pk=id).first()
+        if item:
+            item.delete()
     items = model.objects.all()
-
     return render(request, 'app/admin/admin_panel.html', {"items": items, "title": title, "name": name})
 
 @login_required
