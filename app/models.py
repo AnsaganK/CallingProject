@@ -211,15 +211,30 @@ class Medications(models.Model):
         verbose_name_plural = 'Препараты'
 
 
+class DangerousSigns(models.Model):
+    name = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Опасный признак'
+        verbose_name_plural = 'Опасные признаки'
+
+
 class CheckList(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
 
     wellbeing = models.ForeignKey(Wellbeing, on_delete=models.CASCADE, verbose_name='Самочувствие')
     complaints = models.BooleanField(default=False, )
     weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
 
     medications = models.ManyToManyField(Medications)
+
+    dangerous_signs = models.ManyToManyField(DangerousSigns, null=True, blank=True)
+
 
     urination_frequency = models.IntegerField()
 

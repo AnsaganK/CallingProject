@@ -1,14 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import render, get_object_or_404
+from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
+from django.shortcuts import render, get_object_or_404, redirect
 
 # Create your views here.
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from app.forms import PatientForm
 from app.models import Patient, PMSP, District, WorkType, PastIllness, AccompanyingIllnesses, RiskGroup, \
-    DeregistrationCause, BadHabits
+    DeregistrationCause, BadHabits, Medications, Wellbeing
 from app.serializers import PatientSerializer
 
 
@@ -36,8 +38,50 @@ def managers_list(request):
 
 @login_required
 def patients_list(request):
-    patients = Patient.objects.all()
+    patients = Patient.objects.all().order_by('-pk')
+    paginator = Paginator(patients, 15)
+    page = request.GET.get('page')
+    try:
+        patients = paginator.page(page)
+    except PageNotAnInteger:
+        patients = paginator.page(1)
+    except EmptyPage:
+        patients = paginator.page(paginator.num_pages)
     return render(request, 'app/patient/list.html', {"patients": patients})
+
+@login_required
+def patients_add(request):
+    if request.method == 'POST':
+        print(request.POST)
+        form = PatientForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            print(form.errors)
+        return redirect('patients')
+
+    districts = District.objects.all()
+    work_types = WorkType.objects.all()
+
+    past_illnesses = PastIllness.objects.all()
+    accompanying_illnesses = AccompanyingIllnesses.objects.all()
+    risk_groups = RiskGroup.objects.all()
+    bad_habits = BadHabits.objects.all()
+
+    deregistration_causes = DeregistrationCause.objects.all()
+
+    return render(request, 'app/patient/add.html', {'districts': districts, 'work_types': work_types,
+                                                    'past_illnesses': past_illnesses, 'accompanying_illnesses': accompanying_illnesses, 'risk_groups': risk_groups, 'bad_habits': bad_habits,
+                                                    'deregistration_causes': deregistration_causes
+                                                    })
+
+
+@login_required
+def check_lists(request, pk):
+    user = request.user
+    patient = Patient.objects.get(pk=pk)
+
+    return render(request, 'app/patient/check_list.html', {'patient': patient})
 
 
 @login_required
@@ -63,7 +107,7 @@ def generate_admin_page(request, model, title, name):
         item = model.objects.filter(pk=id).first()
         if item:
             item.delete()
-    items = model.objects.all()
+    items = model.objects.all().order_by('-pk')
     return render(request, 'app/admin/admin_panel.html', {"items": items, "title": title, "name": name})
 
 @login_required
@@ -123,6 +167,20 @@ def deregistration_cause_page(request):
     name = 'deregistration_cause'
     return generate_admin_page(request, model, title, name)
 
+@login_required
+def medications_page(request):
+    model = Medications
+    title = 'Медикаменты'
+    name = 'medications'
+    return generate_admin_page(request, model, title, name)
+
+
+@login_required
+def wellbeing_page(request):
+    model = Wellbeing
+    title = 'Самочувствие'
+    name = 'wellbeing'
+    return generate_admin_page(request, model, title, name)
 
 class PatientDetailView(APIView):
     def get(self, request, pk, format=None):

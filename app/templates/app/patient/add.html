@@ -1,0 +1,220 @@
+{% extends 'app/base.html' %}
+
+{% block title %} Добавление | CallingProject {% endblock %}
+
+{% block content %}
+    <div>
+        <span class="block_title" style="display: block">Добавление пациента</span>
+
+    <div class="tabs is-boxed patient_tabs">
+      <ul>
+        <li data-id="1"  class="is-active" onclick="click_tabs_item(this)">
+          <a>
+            <span class="icon is-small"><i class="fa fa-info" aria-hidden="true"></i></span>
+            <span>Основная информация</span>
+          </a>
+        </li>
+        <li data-id="2" onclick="click_tabs_item(this)">
+          <a>
+            <span class="icon is-small"><i class="fa fa-warning" aria-hidden="true"></i></span>
+            <span>Группа риска</span>
+          </a>
+        </li>
+        <li data-id="3" onclick="click_tabs_item(this)">
+          <a>
+            <span class="icon is-small"><i class="fa fa-user" aria-hidden="true"></i></span>
+            <span>Отец</span>
+          </a>
+        </li>
+        <li data-id="4" onclick="click_tabs_item(this)">
+          <a>
+            <span class="icon is-small"><i class="fa fa-line-chart" aria-hidden="true"></i></span>
+            <span>Хронологическая сводка</span>
+          </a>
+        </li>
+      </ul>
+        <form action="" method="post" class="add_patient_form tabs_blocks">
+            {% csrf_token %}
+        <div id="form_block_1"  class="tabs_block show_block">
+            <div>
+                <label for="">Фамилия</label>
+                <input type="text" name="last_name" class="input is-info">
+            </div>
+            <div>
+                <label for="">Имя</label>
+                <input type="text" name="first_name" class="input is-info">
+            </div>
+            <div>
+                <label for="">Отчество</label>
+                <input type="text" name="patronymic" class="input is-info">
+            </div>
+            <div>
+                <label for="">Дата рождения</label>
+                <input type="date" name="birth_date" class="input is-info">
+            </div>
+            <div>
+                <label for="">Вес до</label>
+                <input type="number" name="before_weight" class="input is-info" max="1000">
+            </div>
+            <div>
+                <label for="">Рост</label>
+                <input type="number" name="height" class="input is-info" max="350">
+            </div>
+            <div>
+                <label for="">Группа крови</label>
+                <input type="number" name="blood_type" class="input is-info">
+            </div>
+            <div>
+                <label for="">Кол-во детей</label>
+                <input type="number" name="children_amount" class="input is-info">
+            </div>
+            <div>
+                <label for="">ПМСП</label>
+                <input type="number" class="input is-info" max="350">
+            </div>
+            <div>
+                <label for="">ИИН</label>
+                <input type="number" name="IIN" class="input is-info" max="999999999999">
+            </div>
+            <div>
+                <label for="">Район</label>
+                <div class="select is-info">
+                    <select name="district">
+                        {% for district in districts %}
+                            <option value="{{ district.id }}">{{ district.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label for="">Моб.телефон</label>
+                <input type="text" name="mobile_phone" class="input is-info">
+            </div>
+            <div>
+                <label for="">Адрес</label>
+                <input type="text" name="address" class="input is-info">
+            </div>
+            <div>
+                <label for="">Тип работы</label>
+                <div class="select is-info">
+                    <select name="work_type">
+                        {% for work_type in work_types %}
+                            <option value="{{ work_type.id }}">{{ work_type.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label for="">Всего беременностей</label>
+                <input type="number" name="total_pregnancies" class="input is-info">
+            </div>
+        </div>
+        <div id="form_block_2" class="tabs_block">
+            <div>
+                <label for="">Перенесенные заболевния</label>
+                <div class="select is-multiple is-info">
+                    <select name="past_illnesses" multiple>
+                        {% for past_illnesse in past_illnesses %}
+                            <option value="{{ past_illnesse.id }}">{{ past_illnesse.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label for="">Сопутсвующие заболевания</label>
+                <div class="select is-multiple is-info">
+                    <select name="accompanying_illnesses" multiple>
+                        {% for accompanying_illnesse in accompanying_illnesses %}
+                            <option value="{{ accompanying_illnesse.id }}">{{ accompanying_illnesse.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label for="">Группа риска</label>
+                <div class="select is-multiple is-info">
+                    <select name="risk_group" multiple>
+                        {% for risk_group in risk_groups %}
+                            <option value="{{ risk_group.id }}">{{ risk_group.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label for="">Вредные привычки</label>
+                <div class="select is-multiple is-info">
+                    <select name="bad_habits" multiple>
+                        {% for bad_habit in bad_habits %}
+                            <option value="{{ bad_habit.id }}">{{ bad_habit.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div id="form_block_3" class="tabs_block">
+            <div>
+                <label for="">Фамилия</label>
+                <input type="text" name="father_last_name" class="input is-info">
+            </div>
+            <div>
+                <label for="">Имя</label>
+                <input type="text" name="father_first_name" class="input is-info">
+            </div>
+            <div>
+                <label for="">Отчество</label>
+                <input type="text" name="father_patronymic" class="input is-info">
+            </div>
+            <div>
+                <label for="">Группа крови</label>
+                <input type="number" name="father_blood_type" class="input is-info">
+            </div>
+            <div>
+                <label for="">Характер производства</label>
+                <div class="select is-info">
+                    <select name="father_work_type">
+                        {% for work_type in work_types %}
+                            <option value="{{ work_type.id }}">{{ work_type.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label for="">Комментарии</label>
+                <textarea name="father_comments" class="input is-info"></textarea>
+            </div>
+        </div>
+        <div id="form_block_4" class="tabs_block">
+            <div>
+                <label for="">Дата регистрации</label>
+                <input type="date" name="registration_date" class="input is-info">
+            </div>
+            <div>
+                <label for="">ПМ</label>
+                <input type="date" name="last_menstruation" class="input is-info">
+            </div>
+            <div>
+                <label for="">Предпологаемая дата родов</label>
+                <input type="date" name="due_date" class="input is-info">
+            </div>
+            <div>
+                <label for="">Дата снятия</label>
+                <input type="date" name="deregistration_date" class="input is-info">
+            </div>
+            <div>
+                <label for="">Причина снятия</label>
+                <div class="select is-info">
+                    <select name="deregistration_cause">
+                        {% for deregistration_cause in deregistration_causes %}
+                            <option value="{{ deregistration_cause.id }}">{{ deregistration_cause.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+            <button class="button is-info" style="margin: 10px auto;display: block;">Создать</button>
+        </form>
+    </div>
+    </div>
+
+{% endblock %}

@@ -5,6 +5,8 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('profile', views.profile, name='profile'),
     path('patients', views.patients_list, name='patients_list'),
+    path('patients/add', views.patients_add, name='patients_add'),
+    path('patients/<int:pk>/check_lists/', views.check_lists, name='check_lists'),
     path('managers', views.managers_list, name='managers_list'),
     path('about', views.about_service, name='about_service'),
     path('contacts', views.contacts, name='contacts'),
@@ -19,6 +21,8 @@ urlpatterns += [
     path('admin/risk_group', views.risk_groups_page, name='risk_group_page'),
     path('admin/bad_habits', views.bad_habits_page, name='bad_habits_page'),
     path('admin/deregistration_cause', views.deregistration_cause_page, name='deregistration_cause_page'),
+    path('admin/medications', views.medications_page, name='medications_page'),
+    path('admin/wellbeing', views.wellbeing_page, name='wellbeing_page'),
 ]
 
 urlpatterns += [

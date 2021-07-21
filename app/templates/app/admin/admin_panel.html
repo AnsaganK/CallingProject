@@ -4,13 +4,15 @@
 
 
 {% block content %}
+    <h2 class="block_title">{{ title }}</h2>
+
     <form action="" method="post" class="admin_panel_form" id="admin_panel_form">
         {% csrf_token %}
         <input class="input is-primary" name="name" type="text" placeholder="{{ title }}">
         <button type="submit" class="button is-primary">Создать</button>
     </form>
 
-    <table class="table is-striped">
+    <table class="table is-striped" style="margin: auto;min-width: 540px;max-width: 720px">
         <thead>
             <tr>
                 <td>Название</td>
@@ -20,7 +22,7 @@
             {% for item in items %}
             <tr class="tr_pointer">
                 <td style="padding: 0px">
-                    <span onclick="detail_admin_item({{ item.id }}, '{{ item.name }}')" class="item_text">{{ item.name }}</span>
+                    <span onclick="detail_admin_item({{ item.id }}, `{{ item.name }}`)" class="item_text">{{ item.name }}</span>
                     <div id="detail_item_{{ item.id }}"></div>
                 </td>
             </tr>

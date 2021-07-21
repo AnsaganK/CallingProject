@@ -9,6 +9,8 @@
     <title>{% block title %}Главная | CallingPatients {% endblock %}</title>
     <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
     <script src="{% static 'app/js/script.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'app/css/style_select.css' %}">
+    <script src="{% static 'app/js/script_select.js' %}"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Questrial&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
@@ -120,10 +122,10 @@
             Причины снятия
           </a>
           <hr class="navbar-divider">
-          <a class="navbar-item" href="">
+          <a class="navbar-item" href="{% url 'medications_page' %}">
             Препараты
           </a>
-            <a class="navbar-item" href="">
+            <a class="navbar-item" href="{% url 'wellbeing_page' %}">
             Самочувствие
           </a>
         </div>

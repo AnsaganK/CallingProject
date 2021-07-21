@@ -274,6 +274,7 @@ function generatePatientInfo(patient){
 }
 
 function detail_admin_item(id, name){
+    name = name.toString().replaceAll(`"`,'&quot;');
     let items_text = document.querySelectorAll('.hide');
     for(let i=0; i<items_text.length; i++){
         items_text[i].classList.remove('hide');
@@ -286,9 +287,8 @@ function detail_admin_item(id, name){
     let admin_panel_form = document.getElementById('admin_panel_form');
     let csrf_value = admin_panel_form.children[0].value;
     let csrf_name = admin_panel_form.children[0].name;
-    console.log(csrf_value);
     detail_item_block.innerHTML = `
-     <form action="" method="post">
+     <form action="" method="post" style="margin: 4px auto">
             <input type="hidden" name="${csrf_name}" value="${csrf_value}">
             <input type="hidden" name="id" value="${id}">
             <input class="input is-warning" name="name" type="text" placeholder="" value="${name}">
@@ -298,4 +298,30 @@ function detail_admin_item(id, name){
             </div> 
      </form>
     `
+}
+
+
+function click_tabs_item(elem){
+    let item_id = elem.getAttribute('data-id');
+    let block = document.getElementById(`form_block_${item_id}`);
+    items_disabled();
+    blocks_hide();
+    elem.classList.toggle('is-active');
+    block.classList.toggle('show_block');
+}
+function items_disabled(){
+    var elems = document.querySelectorAll('.is-active');
+    elems.forEach(
+        elem => {
+            elem.classList.toggle('is-active');
+        }
+    );
+}
+function blocks_hide(){
+    var elems = document.querySelectorAll('.show_block');
+    elems.forEach(
+        elem => {
+            elem.classList.toggle('show_block');
+        }
+    );
 }
