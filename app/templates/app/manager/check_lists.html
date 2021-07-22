@@ -1,0 +1,28 @@
+{% extends 'app/base.html' %}
+
+{% block title %} Созданные чек-листы | CallingProject {% endblock %}
+
+{% block content %}
+    <div>
+        <span class="block_title">Созданные чек-листы</span>
+        <table class="table is-striped is-fullwidth">
+            <thead>
+                <tr>
+                    <td>Пациент</td>
+                    <td>Дата</td>
+                    <td>Самочувствие</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for check_list in check_lists %}
+                    <tr>
+                        <td>{{ check_list.patient.last_name }} {{ check_list.patient.first_name }} {{ check_list.patient.patronymic }}</td>
+                        <td>{{ check_list.date }}</td>
+                        <td>{{ check_list.wellbeing }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% include 'app/pagination.html' with page=check_lists %}
+    </div>
+{% endblock %}

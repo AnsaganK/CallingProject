@@ -1,9 +1,12 @@
 {% extends 'app/base.html' %}
+{% load app_tags %}
 
 {% block title %} Чек лист | CallingProject {% endblock %}
 
 {% block content %}
     <div class="wrapper">
+    <a class="button is-success is-hovered add_patient_button right" href="{% url 'check_lists_add' patient.pk %}"><i class="fa fa-plus"></i>Добавить чек-лист</a>
+
         <span class="block_title">{{ patient.last_name }} {{ patient.first_name }} {{ patient.patronymic }}</span>
 
     {% if check_lists %}
@@ -21,20 +24,19 @@
         {% for check_list in check_lists %}
             <tr>
                 <td>{{ check_list.user.first_name }} {{ check_list.user.last_name }}</td>
-                <td>{{ check_list.date }}</td>
-                <td>{{ check_list.wellbeing }}</td>
+                <td>{{ check_list.date|isNull }}</td>
+                <td>{{ check_list.wellbeing|isNull }}</td>
                 <td>{% if check_list.complaints %}Есть{% else %}Нет{% endif %}</td>
-                <td>{% if check_list.weight %}{{ check_list.weight }}{% else %}-{% endif %}</td>
+                <td>{{ check_list.weight|isNull }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+        {% include 'app/pagination.html' with page=check_lists %}
     {% else %}
         <p class="not_found">Данных не найдено</p>
     {% endif %}
-    <div class="check_lists">
 
-    </div>
     </div>
 
 {% endblock %}

@@ -98,21 +98,33 @@ class BadHabits(models.Model):
         verbose_name_plural = 'Вредные привычки'
 
 
+class DeregistrationCause(models.Model):
+    name = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Причина снятия'
+        verbose_name_plural = 'Причины снятия'
+
+
+class BloodTypes(models.Model):
+    name = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Группа крови'
+        verbose_name_plural = 'Группы крови'
+
+
 class Father(models.Model):
     first_name = models.CharField(max_length=250, default="", null=True, blank=True)
     last_name = models.CharField(max_length=250, default="", null=True, blank=True)
     patronymic = models.CharField(max_length=250, default="", null=True, blank=True)
-    blood_type_choices = (
-        ('1+', '1+'),
-        ('2+', '2+'),
-        ('3+', '3+'),
-        ('4+', '4+'),
-        ('1-', '1-'),
-        ('2-', '2-'),
-        ('3-', '3-'),
-        ('4-', '4-'),
-    )
-    blood_type = models.CharField(max_length=250, choices=blood_type_choices, null=True, blank=True)
+    blood_type = models.ForeignKey(BloodTypes, on_delete=models.CASCADE, null=True, blank=True)
     work_type = models.ManyToManyField(WorkType, null=True, blank=True)
     bad_habits = models.ForeignKey(BadHabits, on_delete=models.CASCADE, null=True, blank=True)
     comments = models.TextField()
@@ -125,43 +137,22 @@ class Father(models.Model):
         verbose_name_plural = 'Отцы'
 
 
-class DeregistrationCause(models.Model):
-    name = models.CharField(max_length=500)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'Причина снятия'
-        verbose_name_plural = 'Причины снятия'
-
-
 class Patient(models.Model):
     first_name = models.CharField(max_length=250, default="", blank=True)
     last_name = models.CharField(max_length=250, default="", blank=True)
     patronymic = models.CharField(max_length=250, default="", blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    before_weight = models.DecimalField(max_digits=5, decimal_places=2, default=0, blank=True)
-    height = models.IntegerField(default=0, blank=True)
-    blood_type_choices = (
-        ('1+', '1+'),
-        ('2+', '2+'),
-        ('3+', '3+'),
-        ('4+', '4+'),
-        ('1-', '1-'),
-        ('2-', '2-'),
-        ('3-', '3-'),
-        ('4-', '4-'),
-    )
-    blood_type = models.CharField(max_length=250, choices=blood_type_choices, null=True, blank=True)
-    children_amount = models.IntegerField(verbose_name='Количество детей', default=0, blank=True)
+    before_weight = models.DecimalField(max_digits=5, decimal_places=2, default=0, null=True, blank=True)
+    height = models.IntegerField(default=0, null=True, blank=True)
+    blood_type = models.ForeignKey(BloodTypes, on_delete=models.CASCADE, null=True, blank=True)
+    children_amount = models.IntegerField(verbose_name='Количество детей', default=0, null=True, blank=True)
     PMSP = models.ForeignKey(PMSP, on_delete=models.CASCADE, null=True, blank=True)
     IIN = models.CharField(max_length=12, default='', blank=True)
     district = models.ForeignKey(District, on_delete=models.CASCADE, null=True, blank=True)
     address = models.CharField(max_length=250, blank=True, default='',)
     mobile_phone = models.CharField(max_length=250, blank=True, verbose_name='Мобильный телефон', default='')
     work_type = models.ManyToManyField(WorkType, null=True, blank=True)
-    total_pregnancies = models.IntegerField(default=0, blank=True)
+    total_pregnancies = models.IntegerField(default=0, null=True, blank=True)
 
     past_illnesses = models.ManyToManyField(PastIllness, verbose_name='Перенесенные заболевания', null=True, blank=True)
     accompanying_illnesses = models.ManyToManyField(AccompanyingIllnesses, verbose_name='Сопутсвующие заболевания', null=True, blank=True, )
@@ -259,7 +250,7 @@ class CheckList(models.Model):
     comments = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return self.patient
+        return str(self.patient)
 
     class Meta:
         verbose_name = 'Чек лист'

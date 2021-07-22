@@ -36,7 +36,25 @@ async function getPatientInfo(patientId){
              );
 }
 
+function reformat_object(object){
+    if(object.constructor === Object){
+        return object.name
+    }else if(Array.isArray(object)){
+        let data = '';
+        object.forEach(
+            elem => {
+                data += `<span>${elem.name}</span><br>`
+            }
+        )
+        return data;
+    }else {
+        return object
+    }
+}
 
+function isNull(object){
+    return object === null || object === '' || object.length === 0 ? '-' : reformat_object(object);
+}
 
 function generatePatientInfo(patient){
     let father = patient.father;
@@ -101,7 +119,7 @@ function generatePatientInfo(patient){
                 Дата рождения:
             </span>
             <span>
-                ${patient.birth_date}
+                ${isNull(patient.birth_date)}
             </span>
         </div>
         <div>
@@ -109,7 +127,7 @@ function generatePatientInfo(patient){
                 Вес до беременности:
             </span>
             <span>
-                ${patient.before_weight}
+                ${isNull(patient.before_weight)}
             </span>
         </div>
         <div>
@@ -117,7 +135,7 @@ function generatePatientInfo(patient){
                 Рост:
             </span>
             <span>
-                ${patient.height}
+                ${isNull(patient.height)}
             </span>
         </div>
         <div>
@@ -125,7 +143,7 @@ function generatePatientInfo(patient){
                 Группа крови:
             </span>
             <span>
-                ${patient.blood_type}
+                ${isNull(patient.blood_type)}
             </span>
         </div>
         <div>
@@ -133,7 +151,7 @@ function generatePatientInfo(patient){
                 Кол-во детей:
             </span>
             <span>
-                ${patient.children_amount}
+                ${isNull(patient.children_amount)}
             </span>
         </div>
         <div>
@@ -141,7 +159,7 @@ function generatePatientInfo(patient){
                 ПМСП:
             </span>
             <span>
-                ${patient.PMSP}
+                ${isNull(patient.PMSP)}
             </span>
         </div>
         <div>
@@ -149,7 +167,7 @@ function generatePatientInfo(patient){
                 ИИН:
             </span>
             <span>
-                ${patient.IIN}
+                ${isNull(patient.IIN)}
             </span>
         </div>
         <div>
@@ -157,7 +175,7 @@ function generatePatientInfo(patient){
                 Район:
             </span>
             <span>
-                ${patient.district}
+                ${isNull(patient.district)}
             </span>
         </div>  
         <div>
@@ -165,7 +183,7 @@ function generatePatientInfo(patient){
                 Адрес:
             </span>
             <span>
-                ${patient.address}
+                ${isNull(patient.address)}
             </span>
         </div>
         <div>
@@ -173,7 +191,7 @@ function generatePatientInfo(patient){
                 Место работы:
             </span>
             <span>
-                ${patient.work_type}
+                ${isNull(patient.work_type)}
             </span>
         </div>
         <div>
@@ -181,7 +199,7 @@ function generatePatientInfo(patient){
                 Всего беременностей:
             </span>
             <span>
-                ${patient.total_pregnancies}
+                ${isNull(patient.total_pregnancies)}
             </span>
         </div>
         <span class="user-info-title">Группа риска</span>
@@ -190,7 +208,7 @@ function generatePatientInfo(patient){
                 Перенесенные заболевания:
             </span>
             <span>
-                ${patient.past_illnesses}
+                ${isNull(patient.past_illnesses)}
             </span>
         </div>
         <div>
@@ -198,7 +216,7 @@ function generatePatientInfo(patient){
                 Сопутсвующие заболевания:
             </span>
             <span>
-                ${patient.accompanying_illnesses}
+                ${isNull(patient.accompanying_illnesses)}
             </span>
         </div>
         <div>
@@ -206,7 +224,7 @@ function generatePatientInfo(patient){
                 Группа риска:
             </span>
             <span>
-                ${patient.risk_group}
+                ${isNull(patient.risk_group)}
             </span>
         </div>
         <div>
@@ -214,7 +232,7 @@ function generatePatientInfo(patient){
                 Вредные привычки:
             </span>
             <span>
-                ${patient.bad_habits}
+                ${isNull(patient.bad_habits)}
             </span>
         </div>
         <span class="user-info-title">Хронологическая сводка</span>
@@ -223,7 +241,7 @@ function generatePatientInfo(patient){
                 Дата взятия:
             </span>
             <span>
-                ${patient.registration_date}
+                ${isNull(patient.registration_date)}
             </span>
         </div>
         <div>
@@ -231,7 +249,7 @@ function generatePatientInfo(patient){
                 ПМ:
             </span>
             <span>
-                ${patient.last_menstruation}
+                ${isNull(patient.last_menstruation)}
             </span>
         </div>
         <div>
@@ -239,7 +257,7 @@ function generatePatientInfo(patient){
                 Предплогаемая дата родов:
             </span>
             <span>
-                ${patient.due_date}
+                ${isNull(patient.due_date)}
             </span>
         </div>
         <div>
@@ -247,7 +265,7 @@ function generatePatientInfo(patient){
                 Дата снятия:
             </span>
             <span>
-                ${patient.deregistration_date}
+                ${isNull(patient.deregistration_date)}
             </span>
         </div>
         <div>
@@ -255,7 +273,7 @@ function generatePatientInfo(patient){
                 Причина снятия:
             </span>
             <span>
-                ${patient.deregistration_cause}
+                ${isNull(patient.deregistration_cause)}
             </span>
         </div>
         <div>
@@ -263,7 +281,7 @@ function generatePatientInfo(patient){
                 Комментарии:
             </span>
             <span>
-                ${patient.comments}
+                ${isNull(patient.comments)}
             </span>
         </div>
         
@@ -324,4 +342,10 @@ function blocks_hide(){
             elem.classList.toggle('show_block');
         }
     );
+}
+
+
+function complaints_field_active(){
+    let complaints_field = document.getElementById('complaints_text');
+    complaints_field.toggleAttribute('disabled');
 }

@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 
 from app.forms import PatientForm, CheckListForm
 from app.models import Patient, PMSP, District, WorkType, PastIllness, AccompanyingIllnesses, RiskGroup, \
-    DeregistrationCause, BadHabits, Medications, Wellbeing, DangerousSigns
+    DeregistrationCause, BadHabits, Medications, Wellbeing, DangerousSigns, CheckList, BloodTypes
 from app.serializers import PatientSerializer
 
 
@@ -49,28 +49,58 @@ def patients_list(request):
         patients = paginator.page(paginator.num_pages)
     return render(request, 'app/patient/list.html', {"patients": patients})
 
+
+@login_required
+def created_check_lists(request):
+    check_lists = CheckList.objects.filter(user=request.user).order_by('-pk')
+    paginator = Paginator(check_lists, 10)
+    page = request.GET.get('page')
+    try:
+        check_lists = paginator.page(page)
+    except PageNotAnInteger:
+        check_lists = paginator.page(1)
+    except EmptyPage:
+        check_lists = paginator.page(paginator.num_pages)
+    return render(request, 'app/manager/check_lists.html', {'check_lists': check_lists})
+
+
+def save_many_to_many(data, field_name, model, object):
+    for i in data:
+        if i == field_name:
+            for j in data[i]:
+                item = model.objects.filter(id=int(j)).first()
+                if item:
+                    object.add(item)
+
 @login_required
 def patients_add(request):
     if request.method == 'POST':
-        print(request.POST)
+        data = dict(request.POST)
         form = PatientForm(request.POST)
         if form.is_valid():
-            form.save()
+            new_patient = form.save()
+            save_many_to_many(data, 'work_type', WorkType, new_patient.work_type)
+            save_many_to_many(data, 'past_illnesses', PastIllness, new_patient.past_illnesses)
+            save_many_to_many(data, 'accompanying_illnesses', AccompanyingIllnesses, new_patient.accompanying_illnesses)
+            save_many_to_many(data, 'risk_group', RiskGroup, new_patient.risk_group)
+            save_many_to_many(data, 'bad_habits', BadHabits, new_patient.bad_habits)
         else:
             print(form.errors)
-        return redirect('patients')
+        return redirect(reverse('patients_list'))
 
+    PMSPs = PMSP.objects.all()
     districts = District.objects.all()
     work_types = WorkType.objects.all()
 
     past_illnesses = PastIllness.objects.all()
     accompanying_illnesses = AccompanyingIllnesses.objects.all()
     risk_groups = RiskGroup.objects.all()
+    blood_types = BloodTypes.objects.all()
     bad_habits = BadHabits.objects.all()
 
     deregistration_causes = DeregistrationCause.objects.all()
 
-    return render(request, 'app/patient/add.html', {'districts': districts, 'work_types': work_types,
+    return render(request, 'app/patient/add.html', {'districts': districts, 'work_types': work_types, 'PMSPs': PMSPs, 'blood_types': blood_types,
                                                     'past_illnesses': past_illnesses, 'accompanying_illnesses': accompanying_illnesses, 'risk_groups': risk_groups, 'bad_habits': bad_habits,
                                                     'deregistration_causes': deregistration_causes
                                                     })
@@ -80,8 +110,15 @@ def patients_add(request):
 def check_lists(request, pk):
     user = request.user
     patient = Patient.objects.get(pk=pk)
-    check_lists = patient.check_lists.all()
-
+    check_lists = patient.check_lists.order_by('-pk').all()
+    paginator = Paginator(check_lists, 10)
+    page = request.GET.get('page')
+    try:
+        check_lists = paginator.page(page)
+    except PageNotAnInteger:
+        check_lists = paginator.page(1)
+    except EmptyPage:
+        check_lists = paginator.page(paginator.num_pages)
     return render(request, 'app/patient/check_list.html', {'patient': patient, 'check_lists': check_lists})
 
 
@@ -97,6 +134,18 @@ def check_lists_add(request, pk):
             new_check_list.user = request.user
             new_check_list.patient = patient
             new_check_list.save()
+            for i in request.POST:
+                if 'dangerous_sign_' in i:
+                    dangerou_id = int(i.split('_')[2])
+                    dangerous_sign = DangerousSigns.objects.filter(pk=dangerou_id).first()
+                    if dangerous_sign:
+                        new_check_list.dangerous_signs.add(dangerous_sign)
+                if i == 'medications':
+                    for j in dict(request.POST)[i]:
+                        medication_id = int(j)
+                        medication = Medications.objects.filter(id=medication_id).first()
+                        if medication:
+                            new_check_list.medications.add(medication)
         else:
             print(form.errors)
         return redirect(reverse('check_lists', args=[patient.id]))
@@ -176,6 +225,15 @@ def risk_groups_page(request):
     title = 'Группы риска'
     name = 'risk_group'
     return generate_admin_page(request, model, title, name)
+
+
+@login_required
+def blood_types_page(request):
+    model = BloodTypes
+    title = 'Группы крови'
+    name = 'blood_types'
+    return generate_admin_page(request, model, title, name)
+
 
 @login_required
 def bad_habits_page(request):

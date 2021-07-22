@@ -4,7 +4,7 @@
 
 {% block content %}
     <div>
-    <div class="block_title">Чек-лист ({{ patient.first_name }}, {{ patient.last_name }})</div>
+    <div class="block_title">Чек-лист ({{ patient.last_name }} {{ patient.first_name }} {{ patient.patronymic }})</div>
         <div class="tabs is-boxed patient_tabs">
       <ul>
         <li data-id="1"  class="is-active" onclick="click_tabs_item(this)">
@@ -15,33 +15,33 @@
         </li>
         <li data-id="2" onclick="click_tabs_item(this)">
           <a>
-            <span class="icon is-small"><i class="fa fa-warning" aria-hidden="true"></i></span>
-            <span>Туалет</span>
+            <span class="icon is-small"><i class="fa fa-stethoscope" aria-hidden="true"></i></span>
+            <span>Мочеиспускание</span>
           </a>
         </li>
         <li data-id="3" onclick="click_tabs_item(this)">
           <a>
-            <span class="icon is-small"><i class="fa fa-user" aria-hidden="true"></i></span>
+            <span class="icon is-small"><i class="fa fa-hospital-o" aria-hidden="true"></i></span>
             <span>Мед.пункт</span>
           </a>
         </li>
 
           <li data-id="4" onclick="click_tabs_item(this)">
           <a>
-            <span class="icon is-small"><i class="fa fa-line-chart" aria-hidden="true"></i></span>
+            <span class="icon is-small"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></span>
             <span>Опасные признаки</span>
           </a>
         </li>
           <li data-id="5" onclick="click_tabs_item(this)">
           <a>
-            <span class="icon is-small"><i class="fa fa-line-chart" aria-hidden="true"></i></span>
+            <span class="icon is-small"><i class="fa fa-shield" aria-hidden="true"></i></span>
               <span>Безопасность</span>
           </a>
         </li>
           </li>
           <li data-id="6" onclick="click_tabs_item(this)">
           <a>
-            <span class="icon is-small"><i class="fa fa-line-chart" aria-hidden="true"></i></span>
+            <span class="icon is-small"><i class="fa fa-question" aria-hidden="true"></i></span>
             <span>Информированность</span>
           </a>
         </li>
@@ -66,13 +66,13 @@
                         Жалобы
                     </label>
                     <label class="switch">
-                          <input type="checkbox" id="complaints" name="complaints">
+                          <input type="checkbox" id="complaints" onchange="complaints_field_active()" name="complaints">
                           <span class="slider"></span>
                     </label>
                 </div>
                 <div>
                     <label for="">Комментарии для жалоб</label>
-                    <textarea name="complaints_text" class="textarea is-info" id=""></textarea>
+                    <textarea name="complaints_text" id="complaints_text" disabled class="textarea is-info" id=""></textarea>
                 </div>
                 <div>
                     <label for="">Вес</label>
@@ -109,6 +109,8 @@
                     </label>
                 </div>
             </div>
+
+
             <div id="form_block_3"  class="tabs_block">
                <div>
                     <label for="transposrt">Транспорт</label>

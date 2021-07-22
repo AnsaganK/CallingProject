@@ -54,15 +54,21 @@
             </div>
             <div>
                 <label for="">Вес до</label>
-                <input type="number" name="before_weight" class="input is-info" max="1000">
+                <input type="number" name="before_weight" class="input is-info">
             </div>
             <div>
                 <label for="">Рост</label>
-                <input type="number" name="height" class="input is-info" max="350">
+                <input type="number" name="height" class="input is-info">
             </div>
             <div>
                 <label for="">Группа крови</label>
-                <input type="number" name="blood_type" class="input is-info">
+                <div class="select is-info">
+                <select name="blood_type">
+                        {% for blood_type in blood_types %}
+                            <option value="{{ blood_type.id }}">{{ blood_type.name }}</option>
+                        {% endfor %}
+                </select>
+                </div>
             </div>
             <div>
                 <label for="">Кол-во детей</label>
@@ -70,11 +76,17 @@
             </div>
             <div>
                 <label for="">ПМСП</label>
-                <input type="number" class="input is-info" max="350">
+                <div class="select is-info">
+                <select name="PMSP">
+                        {% for PMSP in PMSPs %}
+                            <option value="{{ PMSP.id }}">{{ PMSP.name }}</option>
+                        {% endfor %}
+                </select>
+                </div>
             </div>
             <div>
                 <label for="">ИИН</label>
-                <input type="number" name="IIN" class="input is-info" max="999999999999">
+                <input type="number" name="IIN" class="input is-info">
             </div>
             <div>
                 <label for="">Район</label>
@@ -167,14 +179,29 @@
             </div>
             <div>
                 <label for="">Группа крови</label>
-                <input type="number" name="father_blood_type" class="input is-info">
-            </div>
+                <div class="select is-info">
+                <select name="father_blood_type">
+                        {% for blood_type in blood_types %}
+                            <option value="{{ blood_type.id }}">{{ blood_type.name }}</option>
+                        {% endfor %}
+                </select>
+                </div></div>
             <div>
                 <label for="">Характер производства</label>
                 <div class="select is-info">
                     <select name="father_work_type">
                         {% for work_type in work_types %}
                             <option value="{{ work_type.id }}">{{ work_type.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label for="">Вредные привычки</label>
+                <div class="select is-multiple is-info">
+                    <select name="father_bad_habits" multiple>
+                        {% for bad_habit in bad_habits %}
+                            <option value="{{ bad_habit.id }}">{{ bad_habit.name }}</option>
                         {% endfor %}
                     </select>
                 </div>

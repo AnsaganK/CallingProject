@@ -139,6 +139,9 @@
 .loading{
     margin: auto;
 }
+.right{
+    right: 10px;
+}
 .block_title{
     text-align: center;
 
