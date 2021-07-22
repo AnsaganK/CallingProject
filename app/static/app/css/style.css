@@ -101,7 +101,7 @@
     border-top: 0px;
     margin-bottom: 20px;
 }
-.tabs_block div{
+.tabs_block div, .form_item{
     display: flex;
     justify-content: space-between;
     margin: 10px auto;

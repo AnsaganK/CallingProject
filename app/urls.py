@@ -9,6 +9,7 @@ urlpatterns = [
     path('patients/<int:pk>/check_lists/', views.check_lists, name='check_lists'),
     path('patients/<int:pk>/check_lists/add', views.check_lists_add, name='check_lists_add'),
     path('managers', views.managers_list, name='managers_list'),
+    path('managers/add', views.managers_add, name='managers_add'),
     path('managers/my/check-lists', views.created_check_lists, name='created_check_lists'),
     path('about', views.about_service, name='about_service'),
     path('contacts', views.contacts, name='contacts'),

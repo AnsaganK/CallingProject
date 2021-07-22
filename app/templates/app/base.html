@@ -90,7 +90,7 @@
           <a class="navbar-item" href="">
             Звонки
           </a>
-          <a class="navbar-item is-active" href="">
+          <a class="navbar-item" href="">
             Настройки
           </a>
         </div>
@@ -101,6 +101,9 @@
           Админка
         </a>
         <div class="navbar-dropdown">
+            <a class="navbar-item" href="{% url 'managers_add' %}">
+            Менеджера
+          </a>
           <a class="navbar-item" href="{% url 'bad_habits_page' %}">
             Вредные привычки
           </a>

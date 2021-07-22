@@ -8,9 +8,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from app.forms import PatientForm, CheckListForm
+from app.forms import PatientForm, CheckListForm, ManagerForm
 from app.models import Patient, PMSP, District, WorkType, PastIllness, AccompanyingIllnesses, RiskGroup, \
-    DeregistrationCause, BadHabits, Medications, Wellbeing, DangerousSigns, CheckList, BloodTypes
+    DeregistrationCause, BadHabits, Medications, Wellbeing, DangerousSigns, CheckList, BloodTypes, Father
 from app.serializers import PatientSerializer
 
 
@@ -35,6 +35,19 @@ def managers_list(request):
     managers = User.objects.filter(profile__is_manager=True)
     return render(request, 'app/manager/list.html', {"managers": managers})
 
+@login_required
+def managers_add(request):
+    if request.method == 'POST':
+        form = ManagerForm(request.POST)
+        if form.is_valid():
+            new_manager = form.save()
+            new_manager.profile.patronymic = request.POST['patronymic']
+            new_manager.profile.is_manager = True
+            new_manager.save()
+        else:
+            print(form.errors)
+        return redirect(reverse('managers_list'))
+    return render(request, 'app/manager/add.html')
 
 @login_required
 def patients_list(request):
@@ -72,6 +85,24 @@ def save_many_to_many(data, field_name, model, object):
                 if item:
                     object.add(item)
 
+def create_father(data):
+    first_name = data['father_first_name'][0] if data['father_first_name'] else ''
+    last_name = data['father_last_name'][0] if data['father_last_name'] else ''
+    patronymic = data['father_patronymic'][0] if data['father_patronymic'] else ''
+    comments = data['father_comments'][0] if not data['father_comments'] else ''
+    father = Father.objects.create(first_name=first_name, last_name=last_name, patronymic=patronymic,
+                                   comments=comments,
+                                   )
+    if data['father_blood_type']:
+        blood_type = BloodTypes.objects.filter(id=int(data['father_blood_type'][0])).first()
+        father.blood_type = blood_type
+    father.save()
+    save_many_to_many(data, 'father_bad_habits', BadHabits, father.bad_habits)
+    save_many_to_many(data, 'father_work_type', WorkType, father.work_type)
+
+    return father
+
+
 @login_required
 def patients_add(request):
     if request.method == 'POST':
@@ -84,6 +115,8 @@ def patients_add(request):
             save_many_to_many(data, 'accompanying_illnesses', AccompanyingIllnesses, new_patient.accompanying_illnesses)
             save_many_to_many(data, 'risk_group', RiskGroup, new_patient.risk_group)
             save_many_to_many(data, 'bad_habits', BadHabits, new_patient.bad_habits)
+            new_patient.father = create_father(data)
+            new_patient.save()
         else:
             print(form.errors)
         return redirect(reverse('patients_list'))

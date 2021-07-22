@@ -1,0 +1,42 @@
+{% extends 'app/base.html' %}
+
+{% block title %} Создание менеджера {% endblock %}
+
+{% block content %}
+    <div style="width: 600px; margin: 10px auto;display: block;">
+
+        <span class="block_title" style="display: block">Добавление менеджера</span>
+    <form action="" method="post" class="add_patient_form">
+        {% csrf_token %}
+            <div class="form_item">
+                <label for="">Фамилия</label>
+                <input type="text" name="last_name" class="input is-info">
+            </div>
+            <div class="form_item">
+                <label for="">Имя</label>
+                <input type="text" name="first_name" class="input is-info">
+            </div>
+            <div class="form_item">
+                <label for="">Отчество</label>
+                <input type="text" name="patronymic" class="input is-info">
+            </div>
+            <div class="form_item">
+                <label for="">Email</label>
+                <input type="email" name="email" class="input is-info">
+            </div>
+            <div class="form_item">
+                <label for="">Логин</label>
+                <input type="text" name="username" class="input is-info">
+            </div>
+            <div class="form_item">
+                <label for="">Пароль</label>
+                <input type="password" name="password1" class="input is-info">
+            </div>
+            <div class="form_item">
+                <label for="">Пароль(повтор)</label>
+                <input type="password" name="password2" class="input is-info">
+            </div>
+            <button class="button is-info" style="margin: 10px auto;display: block;">Создать</button>
+    </form>
+    </div>
+{% endblock %}

@@ -126,7 +126,7 @@ class Father(models.Model):
     patronymic = models.CharField(max_length=250, default="", null=True, blank=True)
     blood_type = models.ForeignKey(BloodTypes, on_delete=models.CASCADE, null=True, blank=True)
     work_type = models.ManyToManyField(WorkType, null=True, blank=True)
-    bad_habits = models.ForeignKey(BadHabits, on_delete=models.CASCADE, null=True, blank=True)
+    bad_habits = models.ManyToManyField(BadHabits, null=True, blank=True, verbose_name='Плохие привычки')
     comments = models.TextField()
 
     def __str__(self):
@@ -214,7 +214,7 @@ class DangerousSigns(models.Model):
 
 
 class CheckList(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='created_check_lists')
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True, blank=True, related_name='check_lists')
     date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 

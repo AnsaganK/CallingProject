@@ -1,14 +1,32 @@
 {% extends 'app/base.html' %}
-
+{% load app_tags %}
 {% block title %} Менеджера {% endblock %}
 
 {% block content %}
-    <h3>Список менеджеров</h3>
+    <h3 class="block_title">Список менеджеров</h3>
     <div>
-        {% for manager in managers %}
-            <div class="manager">
-                {{ manager.first_name }} {{ manager.last_name }}
-            </div>
-        {% endfor %}
+        <table class="table is-striped is-fullwidth">
+            <thead>
+                <tr>
+                    <td>ФИО</td>
+                    <td>Почта</td>
+                    <td>Моб.номер</td>
+                    <td>Звонков за день</td>
+                    <td>Звонков за все время</td>
+                </tr>
+            </thead>
+            <tbody>
+                        {% for manager in managers %}
+                            <tr>
+                                <td>{{ manager.last_name }} {{ manager.first_name }} {{ manager.profile.patronymic }}</td>
+                                <td>{{ manager.email|isNull }}</td>
+                                <td>{{ manager.mobile|isNull }}</td>
+                                <td>{{ manager|todayCount }}</td>
+                                <td>{{ manager.created_check_lists.count }}</td>
+                            </tr>
+                        {% endfor %}
+            </tbody>
+        </table>
+
     </div>
 {% endblock %}

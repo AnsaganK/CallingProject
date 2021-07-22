@@ -73,7 +73,7 @@ function generatePatientInfo(patient){
             Группа крови:
         </span>
         <span>
-            ${father.blood_type}
+            ${isNull(father.blood_type)}
         </span>
     </div>
     <div>
@@ -81,7 +81,7 @@ function generatePatientInfo(patient){
             Характер производства:
         </span>
         <span>
-            ${father.work_type}
+            ${isNull(father.work_type)}
         </span>
     </div>
     <div>
@@ -89,7 +89,7 @@ function generatePatientInfo(patient){
             Вредные привычки:
         </span>
         <span>
-            ${father.bad_habits}
+            ${isNull(father.bad_habits)}
         </span>
     </div>
     <div>
@@ -97,10 +97,12 @@ function generatePatientInfo(patient){
             Комментарии:
         </span>
         <span>
-            ${father.comments}
+            ${isNull(father.comments)}
         </span>
     </div>
-    ` : '';
+    ` : '<p class="not_found">Нет информации об отце</p>';
+console.log(father_info);
+
     let patient_info = `
 <div class="user-info">
         <span class="user-info-title">Основная информация</span>
@@ -202,6 +204,8 @@ function generatePatientInfo(patient){
                 ${isNull(patient.total_pregnancies)}
             </span>
         </div>
+         <span class="user-info-title">Отец</span>
+        ${father_info}
         <span class="user-info-title">Группа риска</span>
         <div>
             <span>
@@ -284,8 +288,6 @@ function generatePatientInfo(patient){
                 ${isNull(patient.comments)}
             </span>
         </div>
-        
-        
 </div>
     `;
     patient_block.innerHTML = patient_info;

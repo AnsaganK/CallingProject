@@ -49,6 +49,9 @@ class BadHabitsSerializer(serializers.ModelSerializer):
 
 
 class FatherSerializer(serializers.ModelSerializer):
+    work_type = WorkTypeSerializer(many=True)
+    bad_habits = WorkTypeSerializer(many=True)
+    blood_type = BloodTypeSerializer()
     class Meta:
         model = models.Father
         fields = '__all__'
