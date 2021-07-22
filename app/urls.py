@@ -7,6 +7,7 @@ urlpatterns = [
     path('patients', views.patients_list, name='patients_list'),
     path('patients/add', views.patients_add, name='patients_add'),
     path('patients/<int:pk>/check_lists/', views.check_lists, name='check_lists'),
+    path('patients/<int:pk>/check_lists/add', views.check_lists_add, name='check_lists_add'),
     path('managers', views.managers_list, name='managers_list'),
     path('about', views.about_service, name='about_service'),
     path('contacts', views.contacts, name='contacts'),
@@ -23,6 +24,7 @@ urlpatterns += [
     path('admin/deregistration_cause', views.deregistration_cause_page, name='deregistration_cause_page'),
     path('admin/medications', views.medications_page, name='medications_page'),
     path('admin/wellbeing', views.wellbeing_page, name='wellbeing_page'),
+    path('admin/dangerous_signs', views.dangerous_signs_page, name='dangerous_signs_page'),
 ]
 
 urlpatterns += [

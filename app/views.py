@@ -1,16 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 
 # Create your views here.
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from app.forms import PatientForm
+from app.forms import PatientForm, CheckListForm
 from app.models import Patient, PMSP, District, WorkType, PastIllness, AccompanyingIllnesses, RiskGroup, \
-    DeregistrationCause, BadHabits, Medications, Wellbeing
+    DeregistrationCause, BadHabits, Medications, Wellbeing, DangerousSigns
 from app.serializers import PatientSerializer
 
 
@@ -80,13 +80,37 @@ def patients_add(request):
 def check_lists(request, pk):
     user = request.user
     patient = Patient.objects.get(pk=pk)
+    check_lists = patient.check_lists.all()
 
-    return render(request, 'app/patient/check_list.html', {'patient': patient})
+    return render(request, 'app/patient/check_list.html', {'patient': patient, 'check_lists': check_lists})
 
+
+@login_required
+def check_lists_add(request, pk):
+    patient = Patient.objects.filter(pk=pk).first()
+    if not patient:
+        return render(request, 'app/patient/check_list.html', {'patient': patient})
+    if request.method == 'POST':
+        form = CheckListForm(request.POST)
+        if form.is_valid():
+            new_check_list = form.save(commit=False)
+            new_check_list.user = request.user
+            new_check_list.patient = patient
+            new_check_list.save()
+        else:
+            print(form.errors)
+        return redirect(reverse('check_lists', args=[patient.id]))
+    wellbeings = Wellbeing.objects.all()
+    medications = Medications.objects.all()
+    dangerous = DangerousSigns.objects.all()
+
+    return render(request, 'app/patient/check_list_add.html', {'patient': patient, 'wellbeings': wellbeings,
+                                                               'medications': medications, 'dangerous': dangerous})
 
 @login_required
 def about_service(request):
     return render(request, 'app/other/about.html')
+
 
 @login_required
 def contacts(request):
@@ -181,6 +205,14 @@ def wellbeing_page(request):
     title = 'Самочувствие'
     name = 'wellbeing'
     return generate_admin_page(request, model, title, name)
+
+@login_required
+def dangerous_signs_page(request):
+    model = DangerousSigns
+    title = 'Опасные признаки'
+    name = 'dangerous_signs'
+    return generate_admin_page(request, model, title, name)
+
 
 class PatientDetailView(APIView):
     def get(self, request, pk, format=None):

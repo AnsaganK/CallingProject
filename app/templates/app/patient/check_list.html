@@ -1,9 +1,40 @@
 {% extends 'app/base.html' %}
 
-{% block title %} Чек лист для заполнения {% endblock %}
+{% block title %} Чек лист | CallingProject {% endblock %}
 
 {% block content %}
     <div class="wrapper">
-        <span class="block_title">Чек-листы({{ patient.last_name }} {{ patient.first_name }} {{ patient.patronymic }})</span>
+        <span class="block_title">{{ patient.last_name }} {{ patient.first_name }} {{ patient.patronymic }}</span>
+
+    {% if check_lists %}
+    <table class="table is-striped is-fullwidth">
+        <thead>
+        <tr>
+            <td>Создал</td>
+            <td>Дата</td>
+            <td>Самочувствие</td>
+            <td>Жалобы</td>
+            <td>Вес</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for check_list in check_lists %}
+            <tr>
+                <td>{{ check_list.user.first_name }} {{ check_list.user.last_name }}</td>
+                <td>{{ check_list.date }}</td>
+                <td>{{ check_list.wellbeing }}</td>
+                <td>{% if check_list.complaints %}Есть{% else %}Нет{% endif %}</td>
+                <td>{% if check_list.weight %}{{ check_list.weight }}{% else %}-{% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="not_found">Данных не найдено</p>
+    {% endif %}
+    <div class="check_lists">
+
     </div>
+    </div>
+
 {% endblock %}

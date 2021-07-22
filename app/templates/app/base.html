@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Главная | CallingPatients {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'app/css/switch.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
     <script src="{% static 'app/js/script.js' %}"></script>
     <link rel="stylesheet" href="{% static 'app/css/style_select.css' %}">
@@ -127,6 +128,9 @@
           </a>
             <a class="navbar-item" href="{% url 'wellbeing_page' %}">
             Самочувствие
+          </a>
+            <a class="navbar-item" href="{% url 'dangerous_signs_page' %}">
+            Опасные признаки
           </a>
         </div>
       </div>

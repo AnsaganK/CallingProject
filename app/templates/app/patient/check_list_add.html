@@ -4,6 +4,181 @@
 
 {% block content %}
     <div>
-        
+    <div class="block_title">Чек-лист ({{ patient.first_name }}, {{ patient.last_name }})</div>
+        <div class="tabs is-boxed patient_tabs">
+      <ul>
+        <li data-id="1"  class="is-active" onclick="click_tabs_item(this)">
+          <a>
+            <span class="icon is-small"><i class="fa fa-info" aria-hidden="true"></i></span>
+            <span>Общее состояние</span>
+          </a>
+        </li>
+        <li data-id="2" onclick="click_tabs_item(this)">
+          <a>
+            <span class="icon is-small"><i class="fa fa-warning" aria-hidden="true"></i></span>
+            <span>Туалет</span>
+          </a>
+        </li>
+        <li data-id="3" onclick="click_tabs_item(this)">
+          <a>
+            <span class="icon is-small"><i class="fa fa-user" aria-hidden="true"></i></span>
+            <span>Мед.пункт</span>
+          </a>
+        </li>
+
+          <li data-id="4" onclick="click_tabs_item(this)">
+          <a>
+            <span class="icon is-small"><i class="fa fa-line-chart" aria-hidden="true"></i></span>
+            <span>Опасные признаки</span>
+          </a>
+        </li>
+          <li data-id="5" onclick="click_tabs_item(this)">
+          <a>
+            <span class="icon is-small"><i class="fa fa-line-chart" aria-hidden="true"></i></span>
+              <span>Безопасность</span>
+          </a>
+        </li>
+          </li>
+          <li data-id="6" onclick="click_tabs_item(this)">
+          <a>
+            <span class="icon is-small"><i class="fa fa-line-chart" aria-hidden="true"></i></span>
+            <span>Информированность</span>
+          </a>
+        </li>
+      </ul>
+
+        <form action="" method="post" class="add_patient_form tabs_blocks">
+        {% csrf_token %}
+            <div id="form_block_1"  class="tabs_block show_block">
+                <div>
+                    <label for="">Самочувствие</label>
+
+                    <div class="select is-info">
+                    <select name="wellbeing" id="">
+                        {% for wellbeing in wellbeings %}
+                            <option value="{{ wellbeing.id }}">{{ wellbeing.name }}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+                </div>
+                <div>
+                    <label for="complaints" class="checkbox is-info">
+                        Жалобы
+                    </label>
+                    <label class="switch">
+                          <input type="checkbox" id="complaints" name="complaints">
+                          <span class="slider"></span>
+                    </label>
+                </div>
+                <div>
+                    <label for="">Комментарии для жалоб</label>
+                    <textarea name="complaints_text" class="textarea is-info" id=""></textarea>
+                </div>
+                <div>
+                    <label for="">Вес</label>
+                    <input class="input is-info" name="weight" type="number">
+                </div>
+                    <div class="select is-multiple is-info">
+                        <label for="">Медикаменты</label>
+                    <select name="medications" multiple>
+                        {% for medication in medications %}
+                            <option value="{{ medication.id }}">{{ medication.name }}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+            </div>
+        <div id="form_block_2"  class="tabs_block">
+                <div>
+                    <label for="urinary_frequency">Количество мочеиспускании</label>
+                    <input type="number" class="input is-info" id="urinary_frequency" name="urinary_frequency">
+                </div>
+                <div>
+                    <label for="signs_urinary_infections" class="checkbox is-info">
+                        Признаки инфекции мочевыводящих путей
+                    </label>
+                    <label class="switch">
+                          <input type="checkbox" id="signs_urinary_infections" name="signs_urinary_infections">
+                          <span class="slider"></span>
+                    </label>
+                </div>
+                <div>
+                    <label for="constipation">Запор</label>
+                    <label class="switch">
+                          <input type="checkbox" id="constipation" name="constipation">
+                          <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div id="form_block_3"  class="tabs_block">
+               <div>
+                    <label for="transposrt">Транспорт</label>
+                    <label class="switch">
+                          <input type="checkbox" id="transposrt" name="transposrt">
+                          <span class="slider"></span>
+                    </label>
+                </div>
+                <div>
+                    <label for="finance">Финансы</label>
+                    <label class="switch">
+                          <input type="checkbox" id="finance" name="finance">
+                          <span class="slider"></span>
+                    </label>
+                </div>
+                <div>
+                    <label for="ambulance">Скорая</label>
+                    <label class="switch">
+                          <input type="checkbox" id="ambulance" name="ambulance">
+                          <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        <div id="form_block_4"  class="tabs_block">
+                {% for dangerou in dangerous %}
+                    <div>
+                        {{ dangerou.name }}
+                        <label class="switch">
+                          <input type="checkbox" name="dangerous_sign_{{ dangerou.id }}">
+                          <span class="slider"></span>
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        <div id="form_block_5"  class="tabs_block">
+
+                <div>
+                    <label for="emotion_point" class="checkbox is-info">
+                        Эмоциональная оценка
+                    </label>
+                      <input type="number" class="input is-info"  id="emotion_point" name="emotion_point">
+                </div>
+                <div>
+                    <label for="domestic_violence">Оценка вероятности бытового насилия</label>
+                    <input type="number" class="input is-info"  id="domestic_violence" name="domestic_violence">
+                </div>
+                <div>
+                    <label for="support">Поддержка от окружения</label>
+                    <label class="switch">
+                          <input type="checkbox" id="support" name="support">
+                          <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        <div id="form_block_6"  class="tabs_block">
+                <div>
+                    <label for="breast_feeding">Грудное вскармливание и ранний контакт «кожа к коже»</label>
+                    <input type="number" class="input is-info"  id="breast_feeding" name="breast_feeding">
+                </div>
+                <div>
+                    <label for="planned">Планирование семьи</label>
+                    <input type="number" class="input is-info"  id="planned" name="planned">
+                </div>
+                <div>
+                    <label for="profilactic">Профилактические процедуры</label>
+                    <input class="input is-info" name="profilactic" type="profilactic">
+                </div>
+            </div>
+        <button type="submit" class="button is-info" style="margin: 10px auto;display: block;">Создать</button>
+        </form>
+        </div>
     </div>
 {% endblock %}

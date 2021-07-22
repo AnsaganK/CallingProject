@@ -223,20 +223,40 @@ class DangerousSigns(models.Model):
 
 
 class CheckList(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, blank=True)
-    date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True, blank=True, related_name='check_lists')
+    date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
-    wellbeing = models.ForeignKey(Wellbeing, on_delete=models.CASCADE, verbose_name='Самочувствие')
+    #Общее состояние
+    wellbeing = models.ForeignKey(Wellbeing,null=True, blank=True, on_delete=models.CASCADE, verbose_name='Самочувствие')
     complaints = models.BooleanField(default=False, )
+    complaints_text = models.TextField(null=True, blank=True)
     weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
 
-    medications = models.ManyToManyField(Medications)
+    #Медикаменты
+    medications = models.ManyToManyField(Medications, null=True, blank=True)
+
+    #Возникают ли трудности с походом в туалет
+    urinary_frequency = models.IntegerField(null=True, blank=True)
+    signs_urinary_infections = models.BooleanField(default=False)
+    constipation = models.BooleanField(default=False)
+
+    #Возможность добраться до ближайшего медицинского пункта
+    transposrt = models.BooleanField(default=False)
+    finance = models.BooleanField(default=False)
+    ambulance = models.BooleanField(default=False)
 
     dangerous_signs = models.ManyToManyField(DangerousSigns, null=True, blank=True)
 
+    emotion_point = models.IntegerField(null=True, blank=True)
+    domestic_violence = models.IntegerField(null=True, blank=True)
+    support = models.BooleanField(default=False)
 
-    urination_frequency = models.IntegerField()
+    breast_feeding = models.IntegerField(null=True, blank=True)
+    planned = models.IntegerField(null=True, blank=True)
+    profilactic = models.IntegerField(null=True, blank=True)
+
+    comments = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.patient
