@@ -154,6 +154,17 @@ def check_lists(request, pk):
         check_lists = paginator.page(paginator.num_pages)
     return render(request, 'app/patient/check_list.html', {'patient': patient, 'check_lists': check_lists})
 
+@login_required
+def check_list_detail(request, pk):
+    check_list = CheckList.objects.filter(id=pk).first()
+    if not check_list:
+        return redirect(reverse('created_check_lists'))
+
+    wellbeings = Wellbeing.objects.all()
+    medications = Medications.objects.all()
+    dangerous = DangerousSigns.objects.all()
+    return render(request, 'app/patient/check_list_detail.html', {'check_list': check_list, 'wellbeings': wellbeings,
+                                                               'medications': medications, 'dangerous': dangerous})
 
 @login_required
 def check_lists_add(request, pk):

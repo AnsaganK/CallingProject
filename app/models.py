@@ -222,7 +222,7 @@ class CheckList(models.Model):
     wellbeing = models.ForeignKey(Wellbeing,null=True, blank=True, on_delete=models.CASCADE, verbose_name='Самочувствие')
     complaints = models.BooleanField(default=False, )
     complaints_text = models.TextField(null=True, blank=True)
-    weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    weight = models.IntegerField(default=0, null=True, blank=True)
 
     #Медикаменты
     medications = models.ManyToManyField(Medications, null=True, blank=True)
@@ -251,6 +251,9 @@ class CheckList(models.Model):
 
     def __str__(self):
         return str(self.patient)
+
+    def get_absolute_url(self):
+        return reverse('check_list_detail', args=[str(self.pk)])
 
     class Meta:
         verbose_name = 'Чек лист'
