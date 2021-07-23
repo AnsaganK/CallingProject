@@ -11,6 +11,7 @@
 
 .patients_list{
     width: 60%;
+    margin-right: 15px;
 }
 
 .patients_list table tr:hover{
@@ -50,6 +51,10 @@
 }
 .wrapper{
     padding: 10px;
+}
+.label_text{
+     max-width: 850px;
+     white-space: normal
 }
 .admin_panel_form button{
     background-color: #00d1b2;
@@ -162,6 +167,10 @@
 .td_flex{
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+.td_flex a.button{
+    margin-bottom: 3px;
 }
 .user-info-title{
     font-size: 21px;

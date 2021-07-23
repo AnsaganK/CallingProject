@@ -10,6 +10,14 @@
         <span class="block_title">{{ patient.last_name }} {{ patient.first_name }} {{ patient.patronymic }}</span>
 
     {% if check_lists %}
+        <button onclick="toggleModal()">Модалка</button>
+        <div class="modal" id="modal">
+          <div class="modal-background" style="background: black; opacity: 0.6;" onclick="toggleModal()"></div>
+          <div class="modal-content" style="background: white; padding: 20px;">
+            Это модальное окно
+          </div>
+          <button class="modal-close is-large" aria-label="close" onclick="toggleModal()"></button>
+        </div>
     <table class="table is-striped is-fullwidth">
         <thead>
         <tr>

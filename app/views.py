@@ -89,7 +89,7 @@ def create_father(data):
     first_name = data['father_first_name'][0] if data['father_first_name'] else ''
     last_name = data['father_last_name'][0] if data['father_last_name'] else ''
     patronymic = data['father_patronymic'][0] if data['father_patronymic'] else ''
-    comments = data['father_comments'][0] if not data['father_comments'] else ''
+    comments = data['father_comments'][0] if data['father_comments'] else ''
     father = Father.objects.create(first_name=first_name, last_name=last_name, patronymic=patronymic,
                                    comments=comments,
                                    )

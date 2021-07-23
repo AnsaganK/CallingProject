@@ -46,8 +46,8 @@
           </a>
         </li>
       </ul>
-
-        <form action="" method="post" class="add_patient_form tabs_blocks">
+        <div>
+            <form action="" method="post" class="add_patient_form tabs_blocks">
         {% csrf_token %}
             <div id="form_block_1"  class="tabs_block show_block">
                 <div>
@@ -89,11 +89,11 @@
             </div>
         <div id="form_block_2"  class="tabs_block">
                 <div>
-                    <label for="urinary_frequency">Количество мочеиспускании</label>
+                    <label for="urinary_frequency" class="label_text">Количество мочеиспускании</label>
                     <input type="number" class="input is-info" id="urinary_frequency" name="urinary_frequency">
                 </div>
                 <div>
-                    <label for="signs_urinary_infections" class="checkbox is-info">
+                    <label for="signs_urinary_infections" class="checkbox is-info label_text">
                         Признаки инфекции мочевыводящих путей
                     </label>
                     <label class="switch">
@@ -102,7 +102,7 @@
                     </label>
                 </div>
                 <div>
-                    <label for="constipation">Запор</label>
+                    <label for="constipation" class="label_text">Запор</label>
                     <label class="switch">
                           <input type="checkbox" id="constipation" name="constipation">
                           <span class="slider"></span>
@@ -113,21 +113,21 @@
 
             <div id="form_block_3"  class="tabs_block">
                <div>
-                    <label for="transposrt">Транспорт</label>
+                    <label for="transposrt" class="label_text">Транспорт</label>
                     <label class="switch">
                           <input type="checkbox" id="transposrt" name="transposrt">
                           <span class="slider"></span>
                     </label>
                 </div>
                 <div>
-                    <label for="finance">Финансы</label>
+                    <label for="finance" class="label_text">Финансы</label>
                     <label class="switch">
                           <input type="checkbox" id="finance" name="finance">
                           <span class="slider"></span>
                     </label>
                 </div>
                 <div>
-                    <label for="ambulance">Скорая</label>
+                    <label for="ambulance" class="label_text">Скорая</label>
                     <label class="switch">
                           <input type="checkbox" id="ambulance" name="ambulance">
                           <span class="slider"></span>
@@ -137,7 +137,7 @@
         <div id="form_block_4"  class="tabs_block">
                 {% for dangerou in dangerous %}
                     <div>
-                        {{ dangerou.name }}
+                        <span class="label_text">{{ dangerou.name }}</span>
                         <label class="switch">
                           <input type="checkbox" name="dangerous_sign_{{ dangerou.id }}">
                           <span class="slider"></span>
@@ -181,6 +181,7 @@
             </div>
         <button type="submit" class="button is-info" style="margin: 10px auto;display: block;">Создать</button>
         </form>
+        </div>
         </div>
     </div>
 {% endblock %}

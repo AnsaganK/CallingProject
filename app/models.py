@@ -147,9 +147,9 @@ class Patient(models.Model):
     blood_type = models.ForeignKey(BloodTypes, on_delete=models.CASCADE, null=True, blank=True)
     children_amount = models.IntegerField(verbose_name='Количество детей', default=0, null=True, blank=True)
     PMSP = models.ForeignKey(PMSP, on_delete=models.CASCADE, null=True, blank=True)
-    IIN = models.CharField(max_length=12, default='', blank=True)
+    IIN = models.CharField(max_length=250, default='', blank=True)
     district = models.ForeignKey(District, on_delete=models.CASCADE, null=True, blank=True)
-    address = models.CharField(max_length=250, blank=True, default='',)
+    address = models.CharField(max_length=500, blank=True, default='',)
     mobile_phone = models.CharField(max_length=250, blank=True, verbose_name='Мобильный телефон', default='')
     work_type = models.ManyToManyField(WorkType, null=True, blank=True)
     total_pregnancies = models.IntegerField(default=0, null=True, blank=True)
@@ -167,7 +167,7 @@ class Patient(models.Model):
     deregistration_date = models.DateField(null=True, blank=True)
     deregistration_cause = models.ForeignKey(DeregistrationCause, on_delete=models.CASCADE, null=True, blank=True)
 
-    comments = models.TextField(default='', blank=True)
+    comments = models.TextField(default='', null=True, blank=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'

@@ -351,3 +351,8 @@ function complaints_field_active(){
     let complaints_field = document.getElementById('complaints_text');
     complaints_field.toggleAttribute('disabled');
 }
+
+function toggleModal(){
+    let modal = document.getElementById('modal');
+    modal.classList.toggle('is-active');
+}
