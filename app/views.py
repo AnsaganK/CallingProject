@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from app.forms import PatientForm, CheckListForm, ManagerForm
+from app.forms import PatientForm, CheckListForm, ManagerForm, UserEditForm, ProfileEditForm
 from app.models import Patient, PMSP, District, WorkType, PastIllness, AccompanyingIllnesses, RiskGroup, \
     DeregistrationCause, BadHabits, Medications, Wellbeing, DangerousSigns, CheckList, BloodTypes, Father
 from app.serializers import PatientSerializer
@@ -22,13 +22,20 @@ def home(request):
 @login_required
 def profile(request):
     user = request.user
+    return render(request, 'app/profile/profile.html', {"user": user})
 
-    if user.profile.is_admin:
-        return render(request, 'app/admin/profile.html', {"user": user})
 
-    elif user.profile.is_manager:
-        return render(request, 'app/manager/profile.html', {"user": user})
-
+@login_required
+def profile_edit(request):
+    if request.method == 'POST':
+        form1 = UserEditForm(request.POST, instance=request.user)
+        form2 = ProfileEditForm(request.POST, instance=request.user.profile)
+        if form1.is_valid():
+            form1.save()
+        if form2.is_valid():
+            form2.save()
+        return redirect(reverse('profile'))
+    return render(request, 'app/profile/profile_edit.html')
 
 @login_required
 def managers_list(request):

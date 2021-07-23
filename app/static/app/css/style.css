@@ -141,6 +141,28 @@
     color: #248accb3;
     text-align: center;
 }
+.profile{
+    width:520px;
+    margin: auto;
+}
+.profile div{
+    display: flex;
+    margin:1px;
+    padding:10px;
+    justify-content: space-between;
+}
+.profile_buttons{
+    padding: 0px !important;
+}
+.change_password{
+    text-align: center;
+    margin: auto !important;
+    display: block !important;
+    padding: 0px !important;
+}
+td{
+    vertical-align: middle !important;
+}
 .loading{
     margin: auto;
 }

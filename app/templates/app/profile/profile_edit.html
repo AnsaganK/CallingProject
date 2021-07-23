@@ -1,0 +1,36 @@
+{% extends 'app/base.html' %}
+{% load app_tags %}
+
+
+{% block title %} Изменение профиля | CallingProject {% endblock %}
+
+{% block content %}
+    <div style="width:700px; margin: 20px auto;">
+            <span class="block_title">Изменение профиля</span>
+            <form action="" method="post" class="add_patient_form">
+                {% csrf_token %}
+                    <div class="form_item">
+                        <label for="">Фамилия</label>
+                        <input type="text" name="last_name" class="input is-info" value="{{ request.user.last_name }}">
+                    </div>
+                    <div class="form_item">
+                        <label for="">Имя</label>
+                        <input type="text" name="first_name" class="input is-info" value="{{ request.user.first_name }}">
+                    </div>
+                    <div class="form_item">
+                        <label for="">Отчество</label>
+                        <input type="text" name="patronymic" class="input is-info" value="{{ request.user.profile.patronymic|isNull }}">
+                    </div>
+                    <div class="form_item">
+                        <label for="">Email</label>
+                        <input type="email" name="email" class="input is-info" value="{{ request.user.email|isNull }}">
+                    </div>
+                    <div class="form_item">
+                        <label for="">Моб. телефон</label>
+                        <input type="text" name="number_phone" class="input is-info" value="{{ request.user.profile.number_phone|isNull }}">
+                    </div>
+
+                    <button class="button is-info" style="margin: 10px auto;display: block;">Изменить</button>
+            </form>
+    </div>
+{% endblock %}
