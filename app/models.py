@@ -142,7 +142,7 @@ class Patient(models.Model):
     last_name = models.CharField(max_length=250, default="", blank=True)
     patronymic = models.CharField(max_length=250, default="", blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    before_weight = models.DecimalField(max_digits=5, decimal_places=2, default=0, null=True, blank=True)
+    before_weight = models.IntegerField(null=True, blank=True)
     height = models.IntegerField(default=0, null=True, blank=True)
     blood_type = models.ForeignKey(BloodTypes, on_delete=models.CASCADE, null=True, blank=True)
     children_amount = models.IntegerField(verbose_name='Количество детей', default=0, null=True, blank=True)

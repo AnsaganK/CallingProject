@@ -13,7 +13,6 @@
             <thead>
                 <tr>
                     <td>ФИО</td>
-                    <td>Дата рождения</td>
                     <td>Моб.телефон</td>
                     <td>Действия</td>
                 </tr>
@@ -22,12 +21,32 @@
                 {% for patient in patients %}
                     <tr>
                         <td>{{ patient.first_name }} {{ patient.last_name }} {{ patient.patronymic }}</td>
-                        <td>{{ patient.birth_date|isNull }}</td>
+                        <!--<td>{{ patient.birth_date|isNull }}</td>-->
                         <td>{{ patient.mobile_phone|isNull }}</td>
                         <td class="td_flex">
-                            <a class="button is-small is-primary" href="#" id="more_button_{{ patient.id }}" onclick="getPatientInfo({{ patient.id }})">Подробнее</a>
+                            <a href="" class="button is-info is-outlined">
+                                <span class="icon is-small">
+                                  <i class="fa fa-edit"></i>
+                                </span>
+                              </a>
+                             <a class="button is-primary is-outlined" id="more_button_{{ patient.id }}" onclick="getPatientInfo({{ patient.id }})">
+                                <span class="icon is-small">
+                                  <i class="fa fa-info-circle"></i>
+                                </span>
+                              </a>
+                            <a href="{% url 'check_lists' patient.id %}" class="button is-info is-outlined">
+                                <span class="icon is-small">
+                                  <i class="fa fa-list"></i>
+                                </span>
+                              </a>
+                            <a href="{% url 'check_lists_add' patient.id %}" class="button is-danger is-outlined">
+                                <span class="icon is-small">
+                                  <i class="fa fa-plus"></i>
+                                </span>
+                              </a>
+                            <!--<a class="button is-small is-primary" href="#" id="more_button_{{ patient.id }}" onclick="getPatientInfo({{ patient.id }})">Подробнее</a>
                             <a class="button is-small is-warning is-primary" href="{% url 'check_lists' patient.id %}">Чек-листы</a>
-                            <a class="button is-small is-danger is-primary" href="{% url 'check_lists_add' patient.id %}"><i class="fa fa-plus"></i></a>
+                            <a class="button is-small is-danger is-primary" href="{% url 'check_lists_add' patient.id %}"><i class="fa fa-plus"></i></a>-->
                         </td>
                     </tr>
                 {% endfor %}

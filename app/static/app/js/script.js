@@ -101,8 +101,6 @@ function generatePatientInfo(patient){
         </span>
     </div>
     ` : '<p class="not_found">Нет информации об отце</p>';
-console.log(father_info);
-
     let patient_info = `
 <div class="user-info">
         <span class="user-info-title">Основная информация</span>
@@ -355,4 +353,27 @@ function complaints_field_active(){
 function toggleModal(){
     let modal = document.getElementById('modal');
     modal.classList.toggle('is-active');
+}
+
+function generateCheckListModal(data){
+    let modal_block = document.getElementById('modal_check_list');
+    let div = `
+
+    `;
+}
+
+async function getCheckList(id){
+    let url = '/api/check_list';
+
+    await fetch(url).then(async response => {
+                  if (response.status === 200) {
+                    generateCheckListModal(await response.json());
+                  }else{
+                    throw new Error(response.status);
+                  }
+    }).catch(
+        error => {
+            console.log(error);
+        }
+    );
 }
